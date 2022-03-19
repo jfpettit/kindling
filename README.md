@@ -1,7 +1,7 @@
 
 # kindling
 
-The `kindling` submodule (named for the bits of twigs and leaves and other small fuel used to help start a fire), is the broken down components used in the algorithms in the [`flare` repository](https://github.com/jfpettit/flare). This will (hopefully) accelerate algorithm experimentation, by enabling the user to only import what pre-built components they want to use and combine them with their custom-built components. 
+The `kindling` module (named for the bits of twigs and leaves and other small fuel used to help start a fire), is the broken down components used in the algorithms in the [`flare` repository](https://github.com/jfpettit/flare). This will (hopefully) accelerate algorithm experimentation, by enabling the user to only import what pre-built components they want to use and combine them with their custom-built components. 
 
 ## Installation
 
