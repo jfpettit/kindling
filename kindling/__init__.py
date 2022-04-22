@@ -15,15 +15,15 @@ __all__ = [
     "EpochLogger",
 ]
 
-from flare.kindling.neuralnets import (
+from kindling.neuralnets import (
     FireActorCritic,
     FireQActorCritic,
     FireDDPGActorCritic,
     FireTD3ActorCritic,
     FireSACActorCritic,
 )
-from flare.kindling.tblog import TensorBoardWriter
-from flare.kindling import utils
-from flare.kindling.buffers import ReplayBuffer, PGBuffer
-from flare.kindling.saver import Saver
-from flare.kindling.loggingfuncs import Logger, EpochLogger
+from kindling.tblog import TensorBoardWriter
+from kindling import utils
+from kindling.buffers import ReplayBuffer, PGBuffer
+from kindling.saver import Saver
+from kindling.loggingfuncs import Logger, EpochLogger

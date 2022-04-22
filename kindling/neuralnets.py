@@ -206,6 +206,7 @@ class GaussianPolicy(Actor):
         useconv: bool = False,
         channels: int = 3,
         height: int = 64,
+        learn_var: bool = True 
     ):
         super().__init__()
 
@@ -220,7 +221,10 @@ class GaussianPolicy(Actor):
             self.net = CNN(
                 channels, height, action_dim 
             ) 
-        self.logstd = nn.Parameter(-0.5 * torch.ones(action_dim, dtype=torch.float32))
+        if learn_var:
+            self.logstd = nn.Parameter(-0.5 * torch.ones(action_dim, dtype=torch.float32))
+        if not learn_var:
+            self.logstd = torch.ones(action_dim, dtype=torch.float32) * -0.5
 
     def action_distribution(self, states):
         mus = self.net(states)
@@ -257,7 +261,8 @@ class FireActorCritic(nn.Module):
         policy: Optional[nn.Module] = None,
         useconv: Optional[bool] = False,
         channels: Optional[int] = 3,
-        height: Optional[int] = 64
+        height: Optional[int] = 64,
+        learn_var: bool = True 
     ):
         super(FireActorCritic, self).__init__()
     
@@ -285,7 +290,8 @@ class FireActorCritic(nn.Module):
                 out_activation,
                 useconv=useconv,
                 channels=channels,
-                height=height
+                height=height,
+                learn_var=learn_var
                 )
         else:
             self.policy = policy(
@@ -311,7 +317,7 @@ class FireActorCritic(nn.Module):
             action = policy.sample()
             logp_action = self.policy.logprob_from_distribution(policy, action)
             value = self.value_f(x)
-        return action.numpy(), logp_action.numpy(), value.numpy()
+        return action.cpu().numpy(), logp_action.cpu().numpy(), value.cpu().numpy()
 
     def act(self, x):
         return self.step(x)[0]
@@ -588,7 +594,7 @@ class FireSACActorCritic(nn.Module):
         """
         with torch.no_grad():
             a, _ = self.policy(x, deterministic, False)
-            return a.numpy()
+            return a.cpu().numpy()
 
 
 class FireQActorCritic(nn.Module):
