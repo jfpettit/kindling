@@ -183,6 +183,10 @@ class CategoricalPolicy(Actor):
     def logprob_from_distribution(self, policy, actions):
         return policy.log_prob(actions)
 
+    def deterministic_act(self, states):
+        logits = self.net(states)
+        return torch.argmax(F.softmax(logits)).cpu().numpy()
+
 
 class GaussianPolicy(Actor):
     r"""
@@ -233,6 +237,10 @@ class GaussianPolicy(Actor):
 
     def logprob_from_distribution(self, policy, actions):
         return policy.log_prob(actions).sum(axis=-1)
+
+    def deterministic_act(self, states):
+        actions = self.net(states)
+        return actions.cpu().numpy()
 
 
 class FireActorCritic(nn.Module):
