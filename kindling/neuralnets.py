@@ -240,7 +240,7 @@ class GaussianPolicy(Actor):
 
     def deterministic_act(self, states):
         actions = self.net(states)
-        return actions.cpu().numpy()
+        return actions.detach().cpu().numpy()
 
 
 class FireActorCritic(nn.Module):
